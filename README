@@ -1,0 +1,54 @@
+---------------------- TEMA 3 - POO - GRIGORE EDWIN-MARK ----------------------
+
+
+Labirintul este implementat sub forma unei matrici de celule. Celulele sunt ins
+tante ale clasei Cell extinse sub diferite forme: perete, celula-start, celula-
+final sau celula normala. O celula retine distanta catre ea de la celula-start
+si numarul de vizitari. De asemenea, are implementate metode pentru obtinerea s
+i setarea acestor variabile.
+
+Se construieste clasa Coordinates pentru a retine coordonatele unui punct, orie
+ntarea, dimensiunile si stive pentru functia de UNDO. Contine implementarea met
+odelor de avansare in labirint pentru toate directiile, fiecare comform orienta
+rii. Metodele arunca exceptii daca se incearca avansarea catre o pozitie in afa
+ra labirintului. Exista si metoda de undo care seteaza pozitia si orientarea an
+terioare, obtinute din stive.
+
+VisitsComparator implementeaza clasa Comparator si contine metoda compare. Face
+comparatie intre 2 obiecte de tip Cell, dupa numarul de visite catre celulele r
+espective.
+
+Clasa Maze cuprinde implementarea labirintului si metodele aferente.
+Metoda buildMaze construieste labirintul retinut sub forma unei matrice, parcur
+gandu-se fisierul. Pentru fiecare caracter se stocheaza la pozitia respectiva o
+celula in functie de ce se citeste din fisier. Se face aceasta cu ajutorul Fact
+ory Pattern (clasa CellFactory). Se retine pozitia de start din labirint. Clasa
+contine si o enumeratie a directiilor (Dreapta, Fata, Stanga, Spate) care va fi
+folosita in obtinerea directiilor disponibile.
+
+
+----------------------------------- TASK 1 ------------------------------------
+Se porneste de pe pozitia de start retinuta la construirea matricei. Se adauga 
+pozitia in lista si se marcheaza celula ca vizitata. Se calculeaza directiile p
+osibile adaugandu-se intr-o lista, se sorteaza folosind Comparatorul dupa numar
+ul de vizite si se va merge in directia indicata de prima valoare din lista. Se
+apeleaza recursiv metoda pana cand se ajunge la celula-final, moment in care se
+afiseaza lista cu pasii facuti pana la acest moment si se opreste executia.
+
+
+----------------------------------- TASK 2 ------------------------------------
+Pentru implementare, s-a folosit o derivare a algoritmului Dijkstra.
+Se porneste de pe pozitia de start. Se va retine intr-o lista toti pasii facuti
+pana la un moment dat al executiei. Se foloseste o stiva care sa retina directi
+ile posibile. Se adauga initial in aceasta stiva pozitia de start si se initial
+izeaza distanta cu 0. Apoi, cat timp aceasta stiva are elemente, se avanseaza p
+e pozitia indicata de elementul din varful stivei. Se verifica toate celulele s
+i se urca pe stiva pozitiile posibile catre care se poate avansa. Pozitiile pos
+ibile sunt acelea care nu au fost vizitate (au distanta egala cu o valoare mini
+ma setata la construire). Daca s-a ajuns la celula-final, se printeaza in fisie
+r lista cu pasii facuti daca distanta este mai mica decat cea obtinuta anterior
+. Se face backtracking pentru revenire si alegerea unei alte cai, eliminandu-se
+din lista de pasi toate celulele care au distanta mai mica sau egala decat cea 
+curenta si demarcandu-se ca vizitate (se reseteaza valoarea distantei). Toate a
+cestea se executa cat timp stiva cu mutari disponibile are elemente. Fisierul v
+a contine in ultima instanta calea cea mai scurta catre iesirea din labirint.

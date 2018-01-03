@@ -234,7 +234,7 @@ public class Coordinates {
 			setLastHeading();
 			setLastCoord();
 			setHeading("North");
-			setCoord(x + 1, y);
+			setCoord(x - 1, y);
 			break;
 		case "West":
 			setLastHeading();
