@@ -1,8 +1,8 @@
-//package main;
+package main;
 
 import java.io.*;
 import java.util.*;
-//import cells.*;
+import cells.*;
 
 public class Maze {
 	/* 2D list of the maze, the map. */
