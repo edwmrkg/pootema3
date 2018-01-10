@@ -245,7 +245,6 @@ public class Maze {
 		moves.add(new Coordinates(crtPos));
 		crtPos = crtPos.getPrevious();
 		while(!(maze.get(crtPos.getX()).get(crtPos.getY()) instanceof StartCell)) {
-			System.out.println(crtPos);
 			moves.add(0, new Coordinates(crtPos));
 			crtPos = crtPos.getPrevious();
 		}
