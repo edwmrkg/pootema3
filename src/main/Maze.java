@@ -243,9 +243,7 @@ public class Maze {
 
 	public void reconstruct(Coordinates crtPos) {
 		moves.add(new Coordinates(crtPos));
-		System.out.println(crtPos);
 		crtPos = crtPos.getPrevious();
-		System.out.println(crtPos);
 		while(!(maze.get(crtPos.getX()).get(crtPos.getY()) instanceof StartCell)) {
 			System.out.println(crtPos);
 			moves.add(0, new Coordinates(crtPos));
