@@ -146,6 +146,12 @@ public class Maze {
 				if (tryDirection(crtPos, dir.toString())) {
 					possibleMoves.add(maze.get(crtPos.getX()).get(crtPos.getY()));
 					possibleDir.add(dir);
+					if(maze.get(crtPos.getX()).get(crtPos.getY()) instanceof EndCell) {
+						possibleDir.clear();
+						possibleMoves.clear();
+						possibleDir.add(dir);
+						return possibleDir;
+					}
 					crtPos.goBack();
 				}
 
@@ -170,7 +176,7 @@ public class Maze {
 			moves.clear();
 			return;
 		}
-
+		
 		try {
 			tryDirection(pos, getDirection().get(0).toString());
 		} catch (Exception e) {
@@ -188,48 +194,44 @@ public class Maze {
 	 * @param file - a string representing the file name to print to.
 	 */
 	public void findShortestPath(String file) {
-		Stack<Coordinates> possibleMoves = new Stack<Coordinates>();
+		Queue<Coordinates> possibleMoves = new LinkedList<Coordinates>();
 		int minDistance = Integer.MAX_VALUE;
 		int crtDistance;
 		Cell crtCell;
-		
+
 		/* Add the starting point to the stack and to the list of moves. 
 		 * Also mark as visited and initialize distance with 0. */
-		moves.add(new Coordinates(pos));
-		possibleMoves.push(new Coordinates(pos));
+		possibleMoves.add(new Coordinates(pos));
 		maze.get(pos.getX()).get(pos.getY()).setDistance(0);
 		
 		/* While there is a possible move ... */
 		while (!possibleMoves.isEmpty()) {
 			/* Get the first possible move and mark as visited */
-			Coordinates crtPos = possibleMoves.pop();
+			Coordinates crtPos = possibleMoves.remove();
 			crtCell = maze.get(crtPos.getX()).get(crtPos.getY());
 			crtDistance = crtCell.getDistance();
-			
-			/* Backtrack: remove visited cells from the list of moves, unmark it and add the current one*/
-			while (!moves.isEmpty() && crtDistance <= maze.get(moves.get(moves.size()-1).getX()).get(moves.get(moves.size()-1).getY()).getDistance()) {
-				maze.get(moves.get(moves.size()-1).getX()).get(moves.get(moves.size()-1).getY()).setDistance(Integer.MIN_VALUE);
-				moves.remove(moves.size()-1);
-			}
-			moves.add(new Coordinates(crtPos));
 			
 			/* Check if the exit cell is reached. 
 			 * If so, print to file if the distance is smaller than the previous one. */
 			if (maze.get(crtPos.getX()).get(crtPos.getY()) instanceof EndCell) {
 				if (crtDistance < minDistance) {
 					minDistance = crtDistance;
+					reconstruct(new Coordinates(crtPos));
 					printMoves(file);
+					moves.clear();
 				}
 			} 
 			/* Else add to the stack all the available moves. */
 			else {
+				pos = new Coordinates(crtPos);
 				for (DirectionsReversed dir : DirectionsReversed.values()) {
 					try {
 						if (tryDirection(crtPos, dir.toString())) {
 							if (maze.get(crtPos.getX()).get(crtPos.getY()).getDistance() == Integer.MIN_VALUE) {
 								maze.get(crtPos.getX()).get(crtPos.getY()).setDistance(crtDistance+1);
-								possibleMoves.push(new Coordinates(crtPos));
-							}
+								crtPos.setPrevious(pos);
+								possibleMoves.add(new Coordinates(crtPos));
+							}	
 							crtPos.goBack();
 						}
 					} catch (Exception e) {
@@ -237,9 +239,21 @@ public class Maze {
 				}
 			}
 		}
-		moves.clear();
 	}
 
+	public void reconstruct(Coordinates crtPos) {
+		moves.add(new Coordinates(crtPos));
+		System.out.println(crtPos);
+		crtPos = crtPos.getPrevious();
+		System.out.println(crtPos);
+		while(!(maze.get(crtPos.getX()).get(crtPos.getY()) instanceof StartCell)) {
+			System.out.println(crtPos);
+			moves.add(0, new Coordinates(crtPos));
+			crtPos = crtPos.getPrevious();
+		}
+		moves.add(0, new Coordinates(crtPos));
+	}
+	
 	/**
 	 * Prints the list of moves (positions reached) and the total number of moves
 	 * made.

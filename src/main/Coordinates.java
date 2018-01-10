@@ -9,6 +9,7 @@ public class Coordinates {
 	Stack<Integer> lastX = new Stack<Integer>();
 	Stack<Integer> lastY = new Stack<Integer>();
 	Stack<String> lastHeading = new Stack<String>();
+	Coordinates previous;
 
 	/**
 	 * This constructor creates a Coordinates instance
@@ -37,6 +38,7 @@ public class Coordinates {
 		this.heading = pos.getHeading();
 		this.height = pos.getHeight();
 		this.width = pos.getWidth();
+		this.previous = pos.getPrevious();
 	}
 
 	/**
@@ -92,7 +94,6 @@ public class Coordinates {
 
 	/**
 	 * Gets the x-coordinate of the current position.
-	 * 
 	 * @return an Integer representing the coordinate.
 	 */
 	public int getX() {
@@ -101,11 +102,26 @@ public class Coordinates {
 
 	/**
 	 * Gets the y-coordinate of the current position.
-	 * 
 	 * @return an Integer representing the coordinate.
 	 */
 	public int getY() {
 		return y;
+	}
+	
+	/**
+	 * Gets the previous coordinates.
+	 * @return a Coordinates instance representing the coordinate.
+	 */
+	public Coordinates getPrevious() {
+		return previous;
+	}
+	
+	/**
+	 * Sets the previous coordinates.
+	 * @param pos Coordinates
+	 */
+	public void setPrevious(Coordinates pos) {
+		previous = new Coordinates(pos);
 	}
 	
 	/**
@@ -262,7 +278,7 @@ public class Coordinates {
 		case "North":
 			setLastHeading();
 			setLastCoord();
-			setHeading("East");
+			setHeading("West");
 			setCoord(x, y - 1);
 			break;
 		case "East":
@@ -274,7 +290,7 @@ public class Coordinates {
 		case "South":
 			setLastHeading();
 			setLastCoord();
-			setHeading("West");
+			setHeading("East");
 			setCoord(x, y + 1);
 			break;
 		case "West":
