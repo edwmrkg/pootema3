@@ -164,17 +164,17 @@ public class Maze {
 	public void findExit(String file) {
 		moves.add(new Coordinates(pos));
 		maze.get(pos.getX()).get(pos.getY()).visit();
-		if (maze.get(pos.getX()).get(pos.getY()) instanceof EndCell) {
-			printMoves(file);
-			moves.clear();
-			return;
+		do {
+			try {
+				tryDirection(pos, getDirection().toString());
+			} catch (Exception e) {
+			}
+			moves.add(new Coordinates(pos));
+			maze.get(pos.getX()).get(pos.getY()).visit();
 		}
-		
-		try {
-			tryDirection(pos, getDirection().toString());
-		} catch (Exception e) {
-		}
-		findExit(file);
+		while(!(maze.get(pos.getX()).get(pos.getY()) instanceof EndCell));
+		printMoves(file);
+		moves.clear();
 	}
 
 	/**
