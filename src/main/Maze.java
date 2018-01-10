@@ -20,9 +20,6 @@ public class Maze {
 	enum Directions {
 		Right, Front, Left, Back;
 	}
-	enum DirectionsReversed {
-		Back, Left, Front, Right;
-	}
 
 	/**
 	 * Builds the maze map, reading the map from a file. Reads a character from the
@@ -224,7 +221,7 @@ public class Maze {
 			/* Else add to the stack all the available moves. */
 			else {
 				pos = new Coordinates(crtPos);
-				for (DirectionsReversed dir : DirectionsReversed.values()) {
+				for (Directions dir : Directions.values()) {
 					try {
 						if (tryDirection(crtPos, dir.toString())) {
 							if (maze.get(crtPos.getX()).get(crtPos.getY()).getDistance() == Integer.MIN_VALUE) {
