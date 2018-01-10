@@ -1,4 +1,4 @@
-package main;
+//package main;
 
 import java.util.Stack;
 
@@ -180,6 +180,12 @@ public class Coordinates {
 			setHeading("North");
 			setCoord(x - 1, y);
 			break;
+		default:
+			setLastHeading();
+			setLastCoord();
+			setHeading("");
+			setCoord(x, y + 1);
+			break;
 		}
 		if (x < 0 || x >= height) {
 			goBack();
@@ -216,6 +222,12 @@ public class Coordinates {
 			setLastHeading();
 			setLastCoord();
 			setCoord(x, y - 1);
+			break;
+		default:
+			setLastHeading();
+			setLastCoord();
+			setHeading("");
+			setCoord(x - 1, y);
 			break;
 		}
 		if (x < 0 || x >= height) {
@@ -258,6 +270,11 @@ public class Coordinates {
 			setHeading("East");
 			setCoord(x, y + 1);
 			break;
+		default:
+			setLastHeading();
+			setLastCoord();
+			setHeading("");
+			setCoord(x + 1, y);
 		}
 		if (x < 0 || x >= height) {
 			goBack();
@@ -298,6 +315,12 @@ public class Coordinates {
 			setLastCoord();
 			setHeading("South");
 			setCoord(x + 1, y);
+			break;
+		default:
+			setLastHeading();
+			setLastCoord();
+			setHeading("");
+			setCoord(x, y - 1);
 			break;
 		}
 		if (x < 0 || x >= height) {

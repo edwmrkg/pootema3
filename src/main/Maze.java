@@ -1,8 +1,8 @@
-package main;
+//package main;
 
 import java.io.*;
 import java.util.*;
-import cells.*;
+//import cells.*;
 
 public class Maze {
 	/* 2D list of the maze, the map. */
@@ -132,7 +132,7 @@ public class Maze {
 	 * in the direction indicated by the first value of the list.
 	 * @return a List of Directions.
 	 */
-	public List<Directions> getDirection() {
+	public Directions getDirection() {
 		List<Cell> possibleMoves = new ArrayList<Cell>();
 		List<Directions> possibleDir = new ArrayList<Directions>();
 		Coordinates crtPos = new Coordinates(pos);
@@ -143,12 +143,8 @@ public class Maze {
 				if (tryDirection(crtPos, dir.toString())) {
 					possibleMoves.add(maze.get(crtPos.getX()).get(crtPos.getY()));
 					possibleDir.add(dir);
-					if(maze.get(crtPos.getX()).get(crtPos.getY()) instanceof EndCell) {
-						possibleDir.clear();
-						possibleMoves.clear();
-						possibleDir.add(dir);
-						return possibleDir;
-					}
+					if(maze.get(crtPos.getX()).get(crtPos.getY()) instanceof EndCell)
+						return dir;
 					crtPos.goBack();
 				}
 
@@ -156,7 +152,7 @@ public class Maze {
 			}
 		}
 		sort(possibleMoves, possibleDir, new VisitsComparator());
-		return possibleDir;
+		return possibleDir.get(0);
 	}
 
 	/**
@@ -175,7 +171,7 @@ public class Maze {
 		}
 		
 		try {
-			tryDirection(pos, getDirection().get(0).toString());
+			tryDirection(pos, getDirection().toString());
 		} catch (Exception e) {
 		}
 		findExit(file);
@@ -195,6 +191,9 @@ public class Maze {
 		int minDistance = Integer.MAX_VALUE;
 		int crtDistance;
 		Cell crtCell;
+		
+		/* Headless move, will take steps with North heading at any point. */
+		pos.setHeading("");
 
 		/* Add the starting point to the stack and to the list of moves. 
 		 * Also mark as visited and initialize distance with 0. */
